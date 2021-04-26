@@ -1,18 +1,18 @@
 import subprocess
 import time
 from utilities import Utilities
+from config_reader import ConfigReader
 
 # ==============================================================================
 # ServiceInitiateHandler
 # ==============================================================================
-
 class ServiceInitiateHandler():
 
 # |----------------------------------------------------------------------------|
 # __init__
 # |----------------------------------------------------------------------------|
-    def __init__(self, service_type):
-        self._service_type = service_type
+    def __init__(self):
+        self._config_reader_interface = ConfigReader()
         self._utility_obj = Utilities()
         self._startup_path = self._utility_obj.get_scripts_path()
 
@@ -36,8 +36,10 @@ class ServiceInitiateHandler():
 # |----------------------------------------------------------------------------|
     def start_services(self):
         self._utility_obj.change_directory(self._startup_path)
-
-        if self._service_type == "cluster":
+        service_type = self._config_reader_interface.\
+                        get_monitor_service_type()
+        
+        if service_type == "cluster":
             # Initiate django
             self._start_cluster_django()
             # Initiate celery
@@ -54,7 +56,7 @@ class ServiceInitiateHandler():
             self._start_file_beat()
             # Open Chrome
             self._open_chrome()
-        elif self._service_type == "scanner":
+        elif service_type == "scanner":
             # Initiate django
             self._start_scanner_django()
             # Initiate celery
@@ -103,23 +105,68 @@ class ServiceInitiateHandler():
 # _start_viewer_frontend_server
 # |----------------------------------------------------------------------------|
     def _start_viewer_frontend_server(self):
+        status = False
+        # Get front end port from config file.
+        port = self._config_reader_interface.get_viewer_front_end_port()
+
+        status = self._utility_obj.is_port_exists(port)
+        counter = 1
+
         subprocess.Popen(["./frontend_server.sh"], shell=True)
 
+        while status is False and counter <= 120:
+            print("Counter: {}".format(counter))
+            status = self._utility_obj.is_port_exists(port)
+            time.sleep(1)
+            counter = counter + 1
+
+        return status
+    
 # |----------------------End of _start_viewer_frontend_server-----------------|
 
 # |----------------------------------------------------------------------------|
 # _start_viewer_backend_server
 # |----------------------------------------------------------------------------|
     def _start_viewer_backend_server(self):
+        status = False
+        # Get back end port from config file.
+        port = self._config_reader_interface.get_viewer_back_end_port()
+
+        status = self._utility_obj.is_port_exists(port)
+        counter = 1
+
         subprocess.Popen(["./node_server.sh"], shell=True)
 
+        while status is False and counter <= 120:
+            print("Counter: {}".format(counter))
+            status = self._utility_obj.is_port_exists(port)
+            time.sleep(1)
+            counter = counter + 1
+
+        return status
+    
 # |----------------------End of _start_viewer_backend_server------------------|
 
 # |----------------------------------------------------------------------------|
 # _start_panorama_server
 # |----------------------------------------------------------------------------|
     def _start_panorama_server(self):
+        status = False
+        # Get panorama port from config file.
+        port = self._config_reader_interface.get_panorama_viewer_port()
+        status = self._utility_obj.is_port_exists(port)
+
+        counter = 1
+
         subprocess.Popen(["./panorama_server.sh"], shell=True)
+
+        while status is False and counter <= 120:
+            print("Counter: {}".format(counter))
+            status = self._utility_obj.is_port_exists(port)
+            time.sleep(1)
+            counter = counter + 1
+
+        return status
 
 # |----------------------End of _start_panorama_server------------------------|
 

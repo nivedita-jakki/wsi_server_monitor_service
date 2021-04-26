@@ -7,7 +7,6 @@
 	<cluster>
 	      <viewer_front_end value="3000"/>
 	      <viewer_back_end value="1337"/>
-	      <panorama_viewer value="3001"/>
 	      <django value="9000"/>
 	      <monitoring_service value="8888"/>
         </cluster>
@@ -16,6 +15,9 @@
 	      <django value="8000"/>
         </scanner>
 	<cms>
+	      <viewer_front_end value="3000"/>
+	      <viewer_back_end value="1337"/>
+	      <panorama_viewer value="3001"/>
 	      <restoration_service_1 value="8026"/>
 	      <restoration_service_2 value="8027"/>
 	      <image_format_service value="8030"/>
