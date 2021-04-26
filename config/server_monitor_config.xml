@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <service_monitor>
     <!-- monitor_service_type value = cluster/scanner/cms-->
-    <monitor_service_type value="cluster"/>
+    <monitor_service_type value="scanner"/>
 
     <port>
 	<cluster>
@@ -9,9 +9,10 @@
 	      <viewer_back_end value="1337"/>
 	      <django value="9000"/>
 	      <monitoring_service value="8888"/>
+	      <transfer_service value="8026"/>
         </cluster>
 	<scanner>
-	      <transfer_service value="3001"/>
+	      <transfer_service value="8025"/>
 	      <django value="8000"/>
         </scanner>
 	<cms>
