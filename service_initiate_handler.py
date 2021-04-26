@@ -52,6 +52,8 @@ class ServiceInitiateHandler():
             self._start_transfer_service()
             # Initiate monitoring service
             self._start_data_monitoring_service()
+            # Initiate cluster
+            self._start_cluster()
             # Initiate filebeat
             self._start_file_beat()
             # Open Chrome
@@ -65,6 +67,8 @@ class ServiceInitiateHandler():
             self._start_transfer_service()
             # Initiate filebeat
             self._start_file_beat()
+            # Initiate scanner
+            self._start_scanner()
         else:
             # Initiate viewer frontend
             self._start_viewer_frontend_server()
@@ -280,3 +284,20 @@ class ServiceInitiateHandler():
         subprocess.Popen(["./scanner_celery.sh"], shell=True)
 
 # |----------------------End of _start_scanner_celery-------------------------|
+
+# |----------------------------------------------------------------------------|
+# _start_scanner
+# |----------------------------------------------------------------------------|
+    def _start_scanner(self):
+        subprocess.Popen(["./start_scanner"], shell=True,
+                        stdout=subprocess.PIPE)
+# |----------------------End of _start_scanner--------------------------------|
+
+# |----------------------------------------------------------------------------|
+# _start_cluster
+# |----------------------------------------------------------------------------|
+    def _start_cluster(self):
+        subprocess.Popen(["./start_cluster"], shell=True,
+                        stdout=subprocess.PIPE)
+
+# |----------------------End of _start_cluster--------------------------------|
