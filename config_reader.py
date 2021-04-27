@@ -119,3 +119,12 @@ class ConfigReader():
     
 # |----------------------End of get_panorama_viewer_port-----------------------|
 
+# |----------------------------------------------------------------------------|
+# get_robotic_arm_ip
+# |----------------------------------------------------------------------------|
+    def get_robotic_arm_ip(self):
+        root_tag = self.get_root()
+        robotic_arm_ip = self.get_value_by_name(root_tag, "robotic_arm_ip")
+        return robotic_arm_ip
+
+# |----------------------End of get_robotic_arm_ip----------------------------|

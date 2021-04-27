@@ -2,6 +2,7 @@
 <service_monitor>
     <!-- monitor_service_type value = cluster/scanner/cms-->
     <monitor_service_type value="scanner"/>
+    <robotic_arm_ip value="10.20.0.2"/>
 
     <port>
 	<cluster>
