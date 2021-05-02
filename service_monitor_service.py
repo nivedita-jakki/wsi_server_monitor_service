@@ -47,10 +47,10 @@ def service_initiator_task():
     if len(ip_list) > 0:
         status = service_initiate_handler.start_services()
         
-        if status is True:
-            health_check_url = "http://localhost:8024/startup"
-            resp = requests.post(url=health_check_url, timeout=5)
-            print(resp)
+#         if status is True:
+#             health_check_url = "http://localhost:8024/startup"
+#             resp = requests.post(url=health_check_url, timeout=5)
+#             print(resp)
 
 # |------------------------End of initiate_service----------------------------|
 

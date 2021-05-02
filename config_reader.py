@@ -109,7 +109,7 @@ class ConfigReader():
         try:
             root_tag = self.get_root()
             sub_tag = self.get_sub_tag(root_tag, "port")
-            sub_tag = self.get_sub_tag(sub_tag, "cluster")
+            sub_tag = self.get_sub_tag(sub_tag, "cms")
             panorama_viewer_port = self.get_value_by_name(sub_tag,
                                                           "panorama_viewer")
         except Exception as error_msg:
