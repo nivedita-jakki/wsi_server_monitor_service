@@ -17,10 +17,31 @@ config_interface = ConfigReader()
 # |----------------------------------------------------------------------------|
 # initiate_service
 # |----------------------------------------------------------------------------|
-@service_monitor_app.post("/start_service")
-async def initiate_service(background_tasks: BackgroundTasks):
-    background_tasks.add_task(service_initiator_task)
+@service_monitor_app.on_event("startup")
+def initiate_service():
+    service_initiate_handler = ServiceInitiateHandler() 
     
+    ip_list = []
+    counter = 1
+    
+    print("ip_list: ", ip_list)
+    print("counter: ", counter)
+    while len(ip_list) == 0 and counter < 120:
+        print("counter in: ", counter)
+        ip_list = service_initiate_handler.get_system_ip()
+        counter = counter + 1
+        print("Trying again.......")
+        time.sleep(2)
+    
+    print("ip_list222: ", ip_list)
+    if len(ip_list) > 0:
+        status = service_initiate_handler.start_services()
+        
+#         if status is True:
+#             health_check_url = "http://localhost:8024/startup"
+#             resp = requests.post(url=health_check_url, timeout=5)
+#             print(resp)
+
     return {"success": True}
 
 # |------------------------End of initiate_service----------------------------|
@@ -57,7 +78,7 @@ def service_initiator_task():
 # |----------------------------------------------------------------------------|
 # initiate_service
 # |----------------------------------------------------------------------------|
-@service_monitor_app.post("/startup") 
+@service_monitor_app.post("/service_health_check") 
 @repeat_every(wait_first=True,seconds=int(5))
 def scheduled_task(background_tasks: BackgroundTasks) -> None:
     # Get scanner list
