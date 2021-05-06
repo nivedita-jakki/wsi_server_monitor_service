@@ -59,6 +59,8 @@ class ServiceInitiateHandler():
             # Open Chrome
             self._open_chrome()
         elif service_type == "scanner":
+            # Initiate scanner service
+            self._start_scanner_service()
             # Initiate django
             self._start_scanner_django()
             # Initiate celery
@@ -266,8 +268,40 @@ class ServiceInitiateHandler():
 # |----------------------------------------------------------------------------|
     def _start_scanner_django(self):
         subprocess.Popen(["./scanner_server.sh"], shell=True)
+        
+        status = False
+        
+        scanner_django_port = self._config_reader_interface.\
+                                get_scanner_django_port()
+        counter = 0
+        
+        while status is False and counter <= 120:
+            print("Counter: {}".format(counter))
+            status = self._utility_obj.is_port_exists(scanner_django_port)
+            time.sleep(1)
+            counter = counter + 1
 
 # |----------------------End of _start_scanner_django-------------------------|
+
+# |----------------------------------------------------------------------------|
+# _start_scanner_service
+# |----------------------------------------------------------------------------|
+    def _start_scanner_service(self):
+        subprocess.Popen(["./scanner_service.sh"], shell=True)
+        
+        status = False
+        
+        scanner_service_port = self._config_reader_interface.\
+                                get_scanner_service_port()
+        counter = 0
+        
+        while status is False and counter <= 120:
+            print("Counter: {}".format(counter))
+            status = self._utility_obj.is_port_exists(scanner_service_port)
+            time.sleep(1)
+            counter = counter + 1
+            
+# |----------------------End of _start_scanner_service------------------------|
 
 # |----------------------------------------------------------------------------|
 # _start_cluster_celery

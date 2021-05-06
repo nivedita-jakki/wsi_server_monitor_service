@@ -128,3 +128,40 @@ class ConfigReader():
         return robotic_arm_ip
 
 # |----------------------End of get_robotic_arm_ip----------------------------|
+
+# |----------------------------------------------------------------------------|
+# get_scanner_django_port
+# |----------------------------------------------------------------------------|
+    def get_scanner_django_port(self):
+        scanner_django_port = None
+
+        try:
+            root_tag = self.get_root()
+            sub_tag = self.get_sub_tag(root_tag, "port")
+            sub_tag = self.get_sub_tag(sub_tag, "scanner")
+            scanner_django_port = self.get_value_by_name(sub_tag, "django")
+        except Exception as error_msg:
+            print("error_msg in  get_scanner_django_port: ", error_msg)
+    
+        return scanner_django_port
+    
+# |----------------------End of get_scanner_django_port-----------------------|
+
+# |----------------------------------------------------------------------------|
+# get_scanner_service_port
+# |----------------------------------------------------------------------------|
+    def get_scanner_service_port(self):
+        scanner_service_port = None
+
+        try:
+            root_tag = self.get_root()
+            sub_tag = self.get_sub_tag(root_tag, "port")
+            sub_tag = self.get_sub_tag(sub_tag, "scanner")
+            scanner_service_port = self.get_value_by_name(sub_tag,
+                                                         "scanner_service")
+        except Exception as error_msg:
+            print("error_msg in  get_scanner_service_port: ", error_msg)
+    
+        return scanner_service_port
+    
+# |----------------------End of get_scanner_service_port---------------------|
