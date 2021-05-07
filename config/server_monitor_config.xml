@@ -26,7 +26,7 @@
 	      <image_format_service value="8030"/>
 	      <monitoring_service value="8888"/>
 	      <registration_rotation_service value="8806"/>
-	      <registration_rotation_service value="8032"/>
+	      <data_indexing_service value="8032"/>
         </cms>
     </port>
 </service_monitor>
