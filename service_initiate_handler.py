@@ -40,6 +40,13 @@ class ServiceInitiateHandler():
                         get_monitor_service_type()
         
         if service_type == "cluster":
+            # Run arm emulated mode script
+            emulated_mode_status = self._config_reader_interface.\
+                    get_emulated_mode()
+            
+            if emulated_mode_status is True:
+                self._run_arm_server()
+
             # Initiate django
             self._start_cluster_django()
             # Initiate celery
@@ -59,6 +66,8 @@ class ServiceInitiateHandler():
             # Open Chrome
             self._open_chrome()
         elif service_type == "scanner":
+            # Run capture test
+            self._run_capture_test()
             # Initiate scanner service
             self._start_scanner_service()
             # Initiate django
@@ -335,3 +344,19 @@ class ServiceInitiateHandler():
                         stdout=subprocess.PIPE)
 
 # |----------------------End of _start_cluster--------------------------------|
+
+# |----------------------------------------------------------------------------|
+# _run_capture_test
+# |----------------------------------------------------------------------------|
+    def _run_capture_test(self):
+        subprocess.Popen(["./capture_test.sh"], shell=True)
+
+# |----------------------End of _run_capture_test-----------------------------|
+
+# |----------------------------------------------------------------------------|
+# _run_arm_server
+# |----------------------------------------------------------------------------|
+    def _run_arm_server(self):
+        subprocess.Popen(["./emulator_arm.sh"], shell=True)
+
+# |----------------------End of _run_arm_server-------------------------------|

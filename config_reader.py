@@ -165,3 +165,13 @@ class ConfigReader():
         return scanner_service_port
     
 # |----------------------End of get_scanner_service_port---------------------|
+
+# |----------------------------------------------------------------------------|
+# get_emulated_mode
+# |----------------------------------------------------------------------------|
+    def get_emulated_mode(self):
+        root_tag = self.get_root()
+        emulated_mode_value = self.get_value_by_name(root_tag, "emulated_mode")
+        return int(bool(emulated_mode_value))
+
+# |----------------------End of get_emulated_mode-----------------------------|
