@@ -349,7 +349,7 @@ class ServiceInitiateHandler():
 # _run_capture_test
 # |----------------------------------------------------------------------------|
     def _run_capture_test(self):
-        subprocess.Popen(["./capture_test.sh"], shell=True)
+        subprocess.Popen(["./capture_test"], shell=True)
 
 # |----------------------End of _run_capture_test-----------------------------|
 
