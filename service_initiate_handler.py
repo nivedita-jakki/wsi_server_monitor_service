@@ -1,5 +1,7 @@
 import subprocess
 import time
+from os.path import join
+
 from utilities import Utilities
 from config_reader import ConfigReader
 
@@ -61,6 +63,8 @@ class ServiceInitiateHandler():
             self._start_data_monitoring_service()
             # Initiate cluster
             self._start_cluster()
+            # Initiate scan_performance_service
+            self._start_scan_performance()
             # Initiate filebeat
             self._start_file_beat()
             # Open Chrome
@@ -101,9 +105,14 @@ class ServiceInitiateHandler():
             self._start_registration_service()
             # Initiate filebeat
             self._start_file_beat()
+            # Initiate scan_performance_service
+            self._start_scan_performance()
             # Open Chrome
             self._open_chrome()
-        
+
+        self._utility_obj.\
+            change_directory(join(self._utility_obj.get_home_path(),
+                                    "wsi_server_monitor_service"))
         return True
 
 # |----------------------End of start_services-------------------------------|
@@ -360,3 +369,11 @@ class ServiceInitiateHandler():
         subprocess.Popen(["./emulator_arm.sh"], shell=True)
 
 # |----------------------End of _run_arm_server-------------------------------|
+
+# |----------------------------------------------------------------------------|
+# _start_scan_performance
+# |----------------------------------------------------------------------------|
+    def _start_scan_performance(self):
+        subprocess.Popen(["./scan_performance_service.sh"], shell=True)
+
+# |------------------End of _start_scan_performance---------------------------|
